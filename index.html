@@ -281,6 +281,46 @@
 
     }
 
+    /* =========================
+   TOPPING GRATIS ANIMADO
+========================== */
+
+.topping {
+  font-weight: 700;
+  background: linear-gradient(90deg, #ffd700, #ff8c00, #ffd700);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shine 2s linear infinite;
+  position: relative;
+}
+
+.topping::after {
+  content: '✦ ✦ ✦';
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 8px;
+  -webkit-text-fill-color: #ffd700;
+  color: #ffd700;
+  animation: chispas 1.5s ease-in-out infinite;
+  opacity: 0;
+  letter-spacing: 4px;
+}
+
+@keyframes shine {
+  0%   { background-position: 0% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes chispas {
+  0%   { opacity: 0;   transform: translateX(-50%) translateY(0px);  }
+  50%  { opacity: 1;   transform: translateX(-50%) translateY(-6px); }
+  100% { opacity: 0;   transform: translateX(-50%) translateY(-12px);}
+}
+
   </style>
 </head>
 <body>
@@ -308,7 +348,7 @@
       <h1>CLUB NBOBA-T</h1>
 
       <p class="description">
-       ¡Síguenos en cualquiera de nuestras redes sociales para reclamar tu TOPPING GRATIS!
+       ¡Síguenos en cualquiera de nuestras redes sociales para reclamar tu <span class="topping">TOPPING GRATIS</span>!
       </p>
 
     </div>
