@@ -418,13 +418,13 @@
         const esMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
         if (esMobile) {
           // Intenta abrir la app directamente en el perfil
-          window.location.href = 'snssdk1233://user/profile/nbobat';
+          window.location.href = 'snssdk1233://user/profile/@nbobat/';
           // Si la app no está instalada, redirige al navegador como respaldo
           setTimeout(() => {
-            window.location.href = 'https://www.tiktok.com/@nbobat';
+            window.location.href = 'https://www.tiktok.com/@nbobat/';
           }, 1500);
         } else {
-          window.open('https://www.tiktok.com/@nbobat', '_blank');
+          window.open('https://www.tiktok.com/@nbobat/', '_blank');
         }
         return;
       }
