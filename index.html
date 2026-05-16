@@ -358,10 +358,27 @@
   <script>
 
     // =============================
-    // PEGA AQUÍ TU URL DE APPS SCRIPT
+    // URL DE APPS SCRIPT
     // =============================
 
     const API_URL = 'https://script.google.com/macros/s/AKfycbxGZa1Tjdcqr0g3I0EIFAdL4b_rgwaMXkbMfpAnyfQhN6kkJeK3BpykehkvjHorAYAVVg/exec';
+
+
+    // =============================
+    // CIUDAD POR IP
+    // =============================
+
+    let ciudad = 'Desconocida';
+
+    async function getGeoData() {
+      try {
+        const res = await fetch('https://ipapi.co/json/');
+        const data = await res.json();
+        ciudad = (data.city || 'Desconocida') + ', ' + (data.country_name || '');
+      } catch(error) {
+        console.log('Error obteniendo ciudad:', error);
+      }
+    }
 
 
     // =============================
@@ -369,16 +386,15 @@
     // =============================
 
     async function registerScan() {
+      await getGeoData();
       try {
         await fetch(API_URL, {
           method: 'POST',
-          // ✅ FIX: Google Apps Script requiere text/plain para recibir postData.contents
-          headers: {
-            'Content-Type': 'text/plain;charset=utf-8'
-          },
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
           body: JSON.stringify({
             evento: 'scan',
             red_social: '',
+            ciudad: ciudad,
             user_agent: navigator.userAgent,
             fecha: new Date().toISOString()
           })
@@ -395,16 +411,13 @@
 
     async function trackClick(red, url) {
       try {
-        // ✅ FIX: await para esperar que se registre ANTES de redirigir
         await fetch(API_URL, {
           method: 'POST',
-          // ✅ FIX: header correcto para Google Apps Script
-          headers: {
-            'Content-Type': 'text/plain;charset=utf-8'
-          },
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
           body: JSON.stringify({
             evento: 'click',
             red_social: red,
+            ciudad: ciudad,
             user_agent: navigator.userAgent,
             fecha: new Date().toISOString()
           })
@@ -414,12 +427,11 @@
       }
 
       // TikTok: siempre abrir en navegador
-if (url === 'tiktok') {
-  window.open('https://www.tiktok.com/@nbobat', '_blank');
-  return;
-}
+      if (url === 'tiktok') {
+        window.open('https://www.tiktok.com/@nbobat', '_blank');
+        return;
+      }
 
-      // Para todas las demás redes: abrir en nueva pestaña
       window.open(url, '_blank');
     }
 
