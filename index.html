@@ -142,9 +142,13 @@
       gap: 16px;
     }
 
+    /* =========================
+       BOTONES BASE
+    ========================== */
+
     .social-btn {
       width: 100%;
-      border: 1px solid rgba(255,255,255,0.18);
+      border: none;
       border-radius: 20px;
       padding: 18px 20px;
       display: flex;
@@ -156,19 +160,86 @@
       transition: all 0.25s ease;
       color: white;
       text-decoration: none;
+      position: relative;
+      overflow: hidden;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    }
 
-      background: rgba(255,255,255,0.08);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+    .social-btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(255,255,255,0);
+      transition: background 0.25s ease;
+      border-radius: 20px;
+    }
+
+    .social-btn:hover::after {
+      background: rgba(255,255,255,0.12);
     }
 
     .social-btn:hover {
       transform: translateY(-4px) scale(1.01);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.35);
+    }
 
-      background: rgba(255,255,255,0.15);
+    .social-btn:active {
+      transform: translateY(-1px) scale(0.99);
+    }
 
-      box-shadow:
-        0 12px 28px rgba(0,0,0,0.22);
+    /* =========================
+       DEGRADADOS DE MARCA
+    ========================== */
+
+    /* Instagram: morado → rosa → naranja */
+    .social-btn.instagram {
+      background: linear-gradient(
+        135deg,
+        #833ab4 0%,
+        #fd1d1d 50%,
+        #fcb045 100%
+      );
+      box-shadow: 0 4px 18px rgba(253,29,29,0.35);
+    }
+
+    /* Facebook: azul oficial */
+    .social-btn.facebook {
+      background: linear-gradient(
+        135deg,
+        #1877f2 0%,
+        #0c5ecf 100%
+      );
+      box-shadow: 0 4px 18px rgba(24,119,242,0.35);
+    }
+
+    /* TikTok: negro con acento cyan/rojo */
+    .social-btn.tiktok {
+      background: linear-gradient(
+        135deg,
+        #010101 0%,
+        #1a1a2e 50%,
+        #16213e 100%
+      );
+      box-shadow: 0 4px 18px rgba(0,0,0,0.5);
+      border: 1px solid rgba(105,201,208,0.4);
+    }
+
+    .social-btn.tiktok .icon {
+      background: linear-gradient(135deg, #69c9d0, #ee1d52);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 0 6px rgba(105,201,208,0.6));
+    }
+
+    /* WhatsApp: verde oficial */
+    .social-btn.whatsapp {
+      background: linear-gradient(
+        135deg,
+        #25d366 0%,
+        #128c7e 100%
+      );
+      box-shadow: 0 4px 18px rgba(37,211,102,0.35);
     }
 
     .icon {
@@ -262,7 +333,7 @@
 
       <button
         class="social-btn tiktok"
-        onclick="trackClick('TikTok', 'https://www.tiktok.com/@nbobat')"
+        onclick="trackClick('TikTok', 'tiktok')"
       >
         <span>TikTok</span>
         <span class="icon">🎵</span>
@@ -298,11 +369,13 @@
     // =============================
 
     async function registerScan() {
-
       try {
-
         await fetch(API_URL, {
           method: 'POST',
+          // ✅ FIX: Google Apps Script requiere text/plain para recibir postData.contents
+          headers: {
+            'Content-Type': 'text/plain;charset=utf-8'
+          },
           body: JSON.stringify({
             evento: 'scan',
             red_social: '',
@@ -310,24 +383,25 @@
             fecha: new Date().toISOString()
           })
         });
-
       } catch(error) {
-        console.log('Error registrando scan');
+        console.log('Error registrando scan:', error);
       }
-
     }
 
 
     // =============================
-    // REGISTRAR CLICK
+    // REGISTRAR CLICK Y REDIRIGIR
     // =============================
 
     async function trackClick(red, url) {
-
       try {
-
+        // ✅ FIX: await para esperar que se registre ANTES de redirigir
         await fetch(API_URL, {
           method: 'POST',
+          // ✅ FIX: header correcto para Google Apps Script
+          headers: {
+            'Content-Type': 'text/plain;charset=utf-8'
+          },
           body: JSON.stringify({
             evento: 'click',
             red_social: red,
@@ -335,13 +409,28 @@
             fecha: new Date().toISOString()
           })
         });
-
       } catch(error) {
-        console.log('Error registrando click');
+        console.log('Error registrando click:', error);
       }
 
-      window.location.href = url;
+      // ✅ FIX TIKTOK: detección de dispositivo para abrir perfil correctamente
+      if (url === 'tiktok') {
+        const esMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        if (esMobile) {
+          // Intenta abrir la app directamente en el perfil
+          window.location.href = 'snssdk1233://user/profile/nbobat';
+          // Si la app no está instalada, redirige al navegador como respaldo
+          setTimeout(() => {
+            window.location.href = 'https://www.tiktok.com/@nbobat';
+          }, 1500);
+        } else {
+          window.open('https://www.tiktok.com/@nbobat', '_blank');
+        }
+        return;
+      }
 
+      // Para todas las demás redes: abrir en nueva pestaña
+      window.open(url, '_blank');
     }
 
 
