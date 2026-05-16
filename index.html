@@ -1,0 +1,374 @@
+# Sistema QR Social — Diseño Moderno Responsive
+
+Guarda este archivo como `index.html` dentro de tu repositorio de GitHub Pages.
+
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mis Redes Sociales</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #0f172a, #111827);
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 24px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 420px;
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(18px);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 28px;
+      padding: 32px 24px;
+      box-shadow:
+        0 20px 40px rgba(0,0,0,0.4),
+        inset 0 1px 0 rgba(255,255,255,0.05);
+    }
+
+    .profile {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .avatar {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid rgba(255,255,255,0.15);
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .description {
+      color: rgba(255,255,255,0.7);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .links {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .social-btn {
+      width: 100%;
+      border: none;
+      border-radius: 18px;
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.25s ease;
+      color: white;
+      text-decoration: none;
+    }
+
+    .social-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.25);
+    }
+
+    .instagram {
+      background: linear-gradient(135deg, #f58529, #dd2a7b, #8134af);
+    }
+
+    .facebook {
+      background: linear-gradient(135deg, #1877f2, #0f5dcf);
+    }
+
+    .tiktok {
+      background: linear-gradient(135deg, #111111, #333333);
+    }
+
+    .whatsapp {
+      background: linear-gradient(135deg, #25d366, #1da851);
+    }
+
+    .website {
+      background: linear-gradient(135deg, #6366f1, #4338ca);
+    }
+
+    .icon {
+      font-size: 22px;
+    }
+
+    .footer {
+      margin-top: 28px;
+      text-align: center;
+      color: rgba(255,255,255,0.5);
+      font-size: 13px;
+    }
+
+    @media (max-width: 480px) {
+
+      .container {
+        padding: 28px 18px;
+        border-radius: 22px;
+      }
+
+      h1 {
+        font-size: 24px;
+      }
+
+      .social-btn {
+        padding: 16px;
+        font-size: 15px;
+      }
+
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <div class="profile">
+
+      <img
+        class="avatar"
+        src="https://i.imgur.com/2DhmtJ4.png"
+        alt="Logo"
+      />
+
+      <h1>Tu Marca</h1>
+
+      <p class="description">
+        Síguenos en nuestras redes sociales y mantente al día con todo nuestro contenido.
+      </p>
+
+    </div>
+
+    <div class="links">
+
+      <button
+        class="social-btn instagram"
+        onclick="trackClick('Instagram', 'https://instagram.com')"
+      >
+        <span>Instagram</span>
+        <span class="icon">📸</span>
+      </button>
+
+      <button
+        class="social-btn facebook"
+        onclick="trackClick('Facebook', 'https://facebook.com')"
+      >
+        <span>Facebook</span>
+        <span class="icon">👍</span>
+      </button>
+
+      <button
+        class="social-btn tiktok"
+        onclick="trackClick('TikTok', 'https://tiktok.com')"
+      >
+        <span>TikTok</span>
+        <span class="icon">🎵</span>
+      </button>
+
+      <button
+        class="social-btn whatsapp"
+        onclick="trackClick('WhatsApp', 'https://wa.me/5210000000000')"
+      >
+        <span>WhatsApp</span>
+        <span class="icon">💬</span>
+      </button>
+
+      <button
+        class="social-btn website"
+        onclick="trackClick('Website', 'https://tusitio.com')"
+      >
+        <span>Sitio Web</span>
+        <span class="icon">🌐</span>
+      </button>
+
+    </div>
+
+    <div class="footer">
+      Escanea • Conecta • Comparte
+    </div>
+
+  </div>
+
+  <script>
+
+    // =============================
+    // PEGA AQUÍ TU URL DE APPS SCRIPT
+    // =============================
+
+    const API_URL = 'https://script.google.com/macros/s/AKfycbxGZa1Tjdcqr0g3I0EIFAdL4b_rgwaMXkbMfpAnyfQhN6kkJeK3BpykehkvjHorAYAVVg/exec';
+
+
+    // =============================
+    // REGISTRAR ESCANEO
+    // =============================
+
+    async function registerScan() {
+
+      try {
+
+        await fetch(API_URL, {
+          method: 'POST',
+          body: JSON.stringify({
+            evento: 'scan',
+            red_social: '',
+            user_agent: navigator.userAgent,
+            fecha: new Date().toISOString()
+          })
+        });
+
+      } catch(error) {
+        console.log('Error registrando scan');
+      }
+
+    }
+
+
+    // =============================
+    // REGISTRAR CLICK
+    // =============================
+
+    async function trackClick(red, url) {
+
+      try {
+
+        await fetch(API_URL, {
+          method: 'POST',
+          body: JSON.stringify({
+            evento: 'click',
+            red_social: red,
+            user_agent: navigator.userAgent,
+            fecha: new Date().toISOString()
+          })
+        });
+
+      } catch(error) {
+        console.log('Error registrando click');
+      }
+
+      window.location.href = url;
+
+    }
+
+
+    // =============================
+    // INICIAR
+    // =============================
+
+    registerScan();
+
+  </script>
+
+</body>
+</html>
+```
+
+---
+
+# Cómo subirlo a GitHub Pages
+
+## 1. Crear repositorio
+
+Nombre sugerido:
+
+```bash
+social-qr
+```
+
+---
+
+## 2. Subir archivo
+
+Sube tu `index.html`.
+
+---
+
+## 3. Activar GitHub Pages
+
+Settings → Pages →
+
+Source:
+
+```bash
+Deploy from branch
+```
+
+Branch:
+
+```bash
+main
+```
+
+Folder:
+
+```bash
+/root
+```
+
+---
+
+## 4. Tu sitio quedará así
+
+```bash
+https://TUUSUARIO.github.io/social-qr/
+```
+
+---
+
+# Generar el QR
+
+Usa:
+
+* QR Code Monkey
+* Canva
+* Adobe Express
+
+Y apunta el QR a tu URL de GitHub Pages.
+
+---
+
+# Próximas mejoras recomendadas
+
+Puedes agregar después:
+
+* Dashboard visual
+* Tema oscuro/claro
+* Animaciones
+* Estadísticas en tiempo real
+* Geolocalización
+* Modo empresa
+* Pixel de Meta
+* Google Analytics
+* Dominio propio
+* Animaciones premium
+* Tarjeta digital tipo Linktree Pro
