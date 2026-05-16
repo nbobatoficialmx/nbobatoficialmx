@@ -341,7 +341,7 @@
 
       <button
         class="social-btn whatsapp"
-        onclick="trackClick('WhatsApp', 'https://wa.me/527773714293?text=Hola%2C%20quiero%20reclamar%20mi%20topping%20gratis!%20🎉🍪✨')"
+        onclick="trackClick('WhatsApp', 'https://wa.me/527773714293?text=Hola%2C%20quiero%20reclamar%20mi%20TOPPING%20GRATIS!%20🎉🍪✨')"
       >
         <span>WhatsApp</span>
         <span class="icon">💬</span>
@@ -413,21 +413,11 @@
         console.log('Error registrando click:', error);
       }
 
-      // ✅ FIX TIKTOK: detección de dispositivo para abrir perfil correctamente
-      if (url === 'tiktok') {
-        const esMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-        if (esMobile) {
-          // Intenta abrir la app directamente en el perfil
-          window.location.href = 'snssdk1233://user/profile/@nbobat';
-          // Si la app no está instalada, redirige al navegador como respaldo
-          setTimeout(() => {
-            window.location.href = 'https://www.tiktok.com/@nbobat?_r=1&_t=ZS-96PhnTnRuFx';
-          }, 1500);
-        } else {
-          window.open('https://www.tiktok.com/@nbobat?_r=1&_t=ZS-96PhnTnRuFx', '_blank');
-        }
-        return;
-      }
+      // TikTok: siempre abrir en navegador
+if (url === 'tiktok') {
+  window.open('https://www.tiktok.com/@nbobat', '_blank');
+  return;
+}
 
       // Para todas las demás redes: abrir en nueva pestaña
       window.open(url, '_blank');
